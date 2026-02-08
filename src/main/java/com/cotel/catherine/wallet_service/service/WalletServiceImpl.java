@@ -46,6 +46,17 @@ public class WalletServiceImpl implements WalletService {
 
     }
 
+
+    @Override
+    public WalletDto getWalletById(@PathVariable UUID walletId) throws WalletException {
+
+        Wallet wallet = repository.findById(walletId)
+                .orElseThrow(() -> new WalletException(WalletErrorCodeEnum.NOT_FOUND_WALLET_BY_ID));
+
+        return mapper.mapToDto(wallet);
+
+    }
+
     private void updateWalletBalance(Wallet wallet, WalletRequest request) throws WalletException {
 
         if (OperationType.WITHDRAW.equals(request.operationType())) {
@@ -59,17 +70,6 @@ public class WalletServiceImpl implements WalletService {
         } else {
             wallet.amount(wallet.amount().add(request.amount()));
         }
-
-    }
-
-
-    @Override
-    public WalletDto getWalletById(@PathVariable UUID walletId) throws WalletException {
-
-        Wallet wallet = repository.findById(walletId)
-                .orElseThrow(() -> new WalletException(WalletErrorCodeEnum.NOT_FOUND_WALLET_BY_ID));
-
-        return mapper.mapToDto(wallet);
 
     }
 
