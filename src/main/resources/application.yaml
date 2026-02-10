@@ -1,3 +1,19 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
 spring:
   application:
     name: wallet-service
+
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/wallet}
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:password}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    enabled: true
